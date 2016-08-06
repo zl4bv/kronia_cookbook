@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: workstation
+# Cookbook Name:: kronia
 # Recipe:: default
 #
 # Copyright 2016, Ben Vidulich
