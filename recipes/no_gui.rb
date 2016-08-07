@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: kronia
-# Recipe:: chromium
+# Recipe:: no_gui
 #
 # Copyright 2016, Ben Vidulich
 #
@@ -17,4 +17,17 @@
 # limitations under the License.
 #
 
-package 'chromium'
+include_recipe 'apt'
+include_recipe 'golang'
+include_recipe 'nodejs'
+
+include_recipe 'kronia::home'
+include_recipe 'kronia::git'
+
+include_recipe 'kronia::ack_grep'
+include_recipe 'kronia::docker'
+include_recipe 'kronia::htop'
+include_recipe 'kronia::ntp'
+include_recipe 'kronia::rvm'
+include_recipe 'kronia::tmux'
+include_recipe 'kronia::vim'

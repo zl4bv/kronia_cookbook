@@ -20,7 +20,7 @@
 include_recipe 'kronia::home'
 user_home = node['kronia']['user_home']
 
-if %w{debian ubuntu}.include?(node['platform']) && node['kronia']['enable_gui']
+if %w{debian ubuntu}.include?(node['platform'])
   package 'terminator'
 
   directory "#{user_home}/.config" do

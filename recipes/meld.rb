@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 
-if %w{debian ubuntu}.include?(node['platform']) && node['kronia']['enable_gui']
+if %w{debian ubuntu}.include?(node['platform'])
   package 'meld'
 end

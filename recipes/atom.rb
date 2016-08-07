@@ -22,7 +22,7 @@
 include_recipe 'kronia::home'
 user_home = node['kronia']['user_home']
 
-if %w{debian ubuntu}.include?(node['platform']) && node['kronia']['enable_gui']
+if %w{debian ubuntu}.include?(node['platform'])
   # Install prerequisites
   apt_package %w(libnspr4
                   libnss3
