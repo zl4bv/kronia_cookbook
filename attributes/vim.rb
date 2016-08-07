@@ -1,0 +1,5 @@
+default['kronia']['vim']['pathogen_url'] = 'https://raw.githubusercontent.com/tpope/vim-pathogen/master/autoload/pathogen.vim'
+default['kronia']['vim']['airline_repo'] = 'https://github.com/bling/vim-airline'
+default['kronia']['vim']['fugitive_repo'] = 'https://github.com/tpope/vim-fugitive'
+default['kronia']['vim']['goyo_repo'] = 'https://github.com/junegunn/goyo.vim'
+default['kronia']['vim']['tmuxline_repo'] = 'https://github.com/edkolev/tmuxline.vim'

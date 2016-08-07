@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: kronia
-# Recipe:: default
+# Recipe:: tmux
 #
 # Copyright 2016, Ben Vidulich
 #
@@ -17,27 +17,33 @@
 # limitations under the License.
 #
 
-include_recipe 'apt'
-include_recipe 'golang'
-include_recipe 'nodejs'
-
 include_recipe 'kronia::home'
 include_recipe 'kronia::git'
+user_home = node['kronia']['user_home']
 
-include_recipe 'kronia::ack_grep'
-include_recipe 'kronia::docker'
-include_recipe 'kronia::htop'
-include_recipe 'kronia::ntp'
-include_recipe 'kronia::rvm'
-include_recipe 'kronia::tmux'
-include_recipe 'kronia::vim'
+package 'tmux'
 
-if node['kronia']['enable_gui']
-  include_recipe 'kronia::atom'
-  include_recipe 'kronia::chromium'
-  include_recipe 'kronia::fonts'
-  include_recipe 'kronia::gitg'
-  include_recipe 'kronia::i3'
-  include_recipe 'kronia::meld'
-  include_recipe 'kronia::terminator'
+template "#{user_home}/.tmux.conf" do
+  source "tmux.conf.erb"
+  owner node['kronia']['user_name']
+  group node['kronia']['group_name']
+  mode '600'
+end
+
+directory "#{user_home}/.tmux" do
+  owner node['kronia']['user_name']
+  group node['kronia']['group_name']
+end
+
+directory "#{user_home}/.tmux/plugins" do
+  owner node['kronia']['user_name']
+  group node['kronia']['group_name']
+end
+
+git "#{user_home}/.tmux/plugins/tpm" do
+  repository 'https://github.com/tmux-plugins/tpm'
+  revision 'master'
+  user node['kronia']['user_name']
+  group node['kronia']['group_name']
+  action :sync
 end

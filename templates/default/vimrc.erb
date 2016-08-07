@@ -1,0 +1,64 @@
+execute pathogen#infect()
+
+set laststatus=2              " Enable vim-airline
+"let g:airline_theme='base16'
+let g:airline_powerline_fonts=1
+let g:airline#extensions#branch#enabled=1
+
+let g:tmuxline_preset = {
+      \ 'a': '#S',
+        \ 'b': '',
+        \ 'c': '',
+        \ 'win': '#I #W',
+        \ 'cwin': ['#I', '#W'],
+        \ 'x': '#(~/.tmux/plugins/tmux-battery/scripts/battery_percentage.sh)',
+        \ 'y': ['%a', '%Y-%m-%d', '%R'],
+        \ 'z': '#h'}
+
+set t_Co=256
+set background=dark
+"colorscheme base16-eighties
+syntax on
+
+set ruler
+set number
+
+filetype on                   " Enable filetype detection
+filetype indent on            " Enable filetype-specific indenting
+filetype plugin on            " Enable filetype-specific plugins
+
+set expandtab
+set shiftwidth=2
+set softtabstop=2
+
+function! s:goyo_enter()
+  if exists('$TMUX')
+    silent !tmux set status off
+  endif
+
+  let b:quitting = 0
+  let b:quitting_bang = 0
+  autocmd QuitPre <buffer> let b:quitting = 1
+  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+endfunction
+
+function! s:goyo_leave()
+  if exists('$TMUX')
+    silent !tmux set status on
+  endif
+
+  " Quit Vim if this is the only remaining buffer
+  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+    if b:quitting_bang
+      qa!
+    else
+      qa
+    endif
+  endif
+endfunction
+
+autocmd User GoyoEnter nested call <SID>goyo_enter()
+autocmd User GoyoLeave nested call <SID>goyo_leave()
+
+autocmd BufNewFile,BufRead *.md Goyo
+autocmd BufNewFile,BufRead *.markdown Goyo

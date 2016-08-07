@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: kronia
-# Recipe:: default
+# Recipe:: docker
 #
 # Copyright 2016, Ben Vidulich
 #
@@ -17,27 +17,30 @@
 # limitations under the License.
 #
 
-include_recipe 'apt'
-include_recipe 'golang'
-include_recipe 'nodejs'
-
 include_recipe 'kronia::home'
-include_recipe 'kronia::git'
 
-include_recipe 'kronia::ack_grep'
-include_recipe 'kronia::docker'
-include_recipe 'kronia::htop'
-include_recipe 'kronia::ntp'
-include_recipe 'kronia::rvm'
-include_recipe 'kronia::tmux'
-include_recipe 'kronia::vim'
+if %w{debian}.include?(node['platform'])
+  file '/etc/apt/sources.list.d/jessie-backports.list' do
+    content 'deb http://http.debian.net/debian jessie-backports main'
+    notifies :run, 'bash[update apt cache]', :immediately
+  end
 
-if node['kronia']['enable_gui']
-  include_recipe 'kronia::atom'
-  include_recipe 'kronia::chromium'
-  include_recipe 'kronia::fonts'
-  include_recipe 'kronia::gitg'
-  include_recipe 'kronia::i3'
-  include_recipe 'kronia::meld'
-  include_recipe 'kronia::terminator'
+  bash 'update apt cache' do
+    action :nothing
+    code 'apt-get update'
+  end
+
+  apt_package 'docker.io' do
+    action :install
+  end
+
+  group 'docker' do
+    members [node['kronia']['user_name']]
+    append true
+    notifies :restart, 'service[docker]', :delayed
+  end
+
+  service 'docker' do
+    action [:enable, :start]
+  end
 end
