@@ -9,7 +9,7 @@ version           '0.1.0'
 depends           'apt'
 depends           'golang'
 depends           'nodejs'
-depends           'rvm'
+depends           'rvm', '~> 0.9'
 
 %w(debian).each do |os|
   supports os
