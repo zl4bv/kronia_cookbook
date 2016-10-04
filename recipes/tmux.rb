@@ -21,29 +21,31 @@ include_recipe 'kronia::home'
 include_recipe 'kronia::git'
 user_home = node['kronia']['user_home']
 
-package 'tmux'
+if %w(debian ubuntu).include?(node['platform'])
+  package 'tmux'
 
-template "#{user_home}/.tmux.conf" do
-  source "tmux.conf.erb"
-  owner node['kronia']['user_name']
-  group node['kronia']['group_name']
-  mode '600'
-end
+  template "#{user_home}/.tmux.conf" do
+    source 'tmux.conf.erb'
+    owner node['kronia']['user_name']
+    group node['kronia']['group_name']
+    mode '600'
+  end
 
-directory "#{user_home}/.tmux" do
-  owner node['kronia']['user_name']
-  group node['kronia']['group_name']
-end
+  directory "#{user_home}/.tmux" do
+    owner node['kronia']['user_name']
+    group node['kronia']['group_name']
+  end
 
-directory "#{user_home}/.tmux/plugins" do
-  owner node['kronia']['user_name']
-  group node['kronia']['group_name']
-end
+  directory "#{user_home}/.tmux/plugins" do
+    owner node['kronia']['user_name']
+    group node['kronia']['group_name']
+  end
 
-git "#{user_home}/.tmux/plugins/tpm" do
-  repository 'https://github.com/tmux-plugins/tpm'
-  revision 'master'
-  user node['kronia']['user_name']
-  group node['kronia']['group_name']
-  action :sync
+  git "#{user_home}/.tmux/plugins/tpm" do
+    repository 'https://github.com/tmux-plugins/tpm'
+    revision 'master'
+    user node['kronia']['user_name']
+    group node['kronia']['group_name']
+    action :sync
+  end
 end

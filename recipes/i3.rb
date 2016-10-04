@@ -20,7 +20,7 @@
 include_recipe 'kronia::home'
 user_home = node['kronia']['user_home']
 
-if %w{debian ubuntu}.include?(node['platform'])
+if %w(debian ubuntu).include?(node['platform'])
   package 'i3'
 
   directory "#{user_home}/.i3" do

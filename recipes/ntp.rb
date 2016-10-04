@@ -17,11 +17,11 @@
 # limitations under the License.
 #
 
-if %w{debian ubuntu}.include?(node['platform'])
+if %w(debian ubuntu).include?(node['platform'])
   package 'ntp'
 
   template '/etc/ntp.conf' do
-    source "ntp.conf.erb"
+    source 'ntp.conf.erb'
     owner 'root'
     group 'root'
     mode '0644'

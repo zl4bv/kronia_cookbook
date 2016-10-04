@@ -23,13 +23,11 @@ user_home = node['kronia']['user_home']
 package 'git'
 
 template "#{user_home}/.gitconfig" do
-  source "gitconfig.erb"
+  source 'gitconfig.erb'
   owner node['kronia']['user_name']
   group node['kronia']['group_name']
   mode '600'
   action :create_if_missing
-  variables({
-    user_full_name: node['kronia']['user_full_name'],
-    user_email:     node['kronia']['user_email']
-  })
+  variables(user_full_name: node['kronia']['user_full_name'],
+            user_email:     node['kronia']['user_email'])
 end

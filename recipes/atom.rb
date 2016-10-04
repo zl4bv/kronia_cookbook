@@ -20,21 +20,23 @@
 ::Chef::Recipe.send(:include, Kronia::Atom)
 
 include_recipe 'kronia::home'
+group_name = node['kronia']['group_name']
+user_name = node['kronia']['user_name']
 user_home = node['kronia']['user_home']
 
-if %w{debian ubuntu}.include?(node['platform'])
+if %w(debian ubuntu).include?(node['platform'])
   # Install prerequisites
   apt_package %w(libnspr4
-                  libnss3
-                  xdg-utils
-                  libnotify4
-                  gvfs-bin
-                  libdbus-glib-1-2
-                  gconf2-common
-                  libgconf-2-4
-                  dbus-x11
-                  gconf-service
-                  gconf2)
+                 libnss3
+                 xdg-utils
+                 libnotify4
+                 gvfs-bin
+                 libdbus-glib-1-2
+                 gconf2-common
+                 libgconf-2-4
+                 dbus-x11
+                 gconf-service
+                 gconf2)
 
   # Download and install Atom
   asset = atom_release(node['kronia']['atom_version']).deb_amd64_asset
@@ -49,25 +51,23 @@ if %w{debian ubuntu}.include?(node['platform'])
 
   # Install APM packages
   template "#{user_home}/.atom-packages.txt" do
-    source "atom-packages.txt.erb"
-    owner node['kronia']['user_name']
-    group node['kronia']['group_name']
+    source 'atom-packages.txt.erb'
+    owner user_name
+    group group_name
     mode '600'
     notifies :run, 'execute[apm install]', :immediately
   end
 
   execute 'apm install' do
     command "apm install --packages-file #{user_home}/.atom-packages.txt"
-    environment ({
-      "HOME"        => user_home,
-      "USERPROFILE" => user_home
-    })
+    environment('HOME'        => user_home,
+                'USERPROFILE' => user_home)
     action :nothing
     notifies :run, 'execute[fix atom directory permissions]', :immediately
   end
 
   execute 'fix atom directory permissions' do
-    command "chown -R #{node['kronia']['user_name']}:#{node['kronia']['group_name']} #{user_home}/.atom"
+    command "chown -R #{user_name}:#{group_name} #{user_home}/.atom"
     action :nothing
   end
 end

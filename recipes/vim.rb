@@ -24,7 +24,7 @@ user_home = node['kronia']['user_home']
 package 'vim'
 
 template "#{user_home}/.vimrc" do
-  source "vimrc.erb"
+  source 'vimrc.erb'
   owner node['kronia']['user_name']
   group node['kronia']['group_name']
   mode '600'

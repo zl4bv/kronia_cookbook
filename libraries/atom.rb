@@ -17,6 +17,7 @@
 require File.join(File.dirname(__FILE__), 'octokit')
 
 module Kronia
+  # Mixin for fetching GitHub Release information for the Atom editor
   module Atom
     include Kronia::Octokit
 
@@ -34,6 +35,7 @@ module Kronia
       Release.new(octokit.release_for_tag(ATOM_REPO_NAME, "v#{version}"))
     end
 
+    # Wrapper class for a single GitHub Release of the Atom editor project
     class Release
       # @param res [Sawyer::Resource]
       def initialize(res)

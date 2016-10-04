@@ -19,7 +19,7 @@
 
 include_recipe 'kronia::home'
 
-if %w{debian}.include?(node['platform'])
+if %w(debian).include?(node['platform'])
   file '/etc/apt/sources.list.d/jessie-backports.list' do
     content 'deb http://http.debian.net/debian jessie-backports main'
     notifies :run, 'bash[update apt cache]', :immediately

@@ -19,7 +19,7 @@
 
 include_recipe 'kronia::git'
 
-if %w{debian ubuntu}.include?(node['platform'])
+if %w(debian ubuntu).include?(node['platform'])
   fonts_install_dir = '/usr/share/fonts/powerline-fonts'
 
   apt_package 'fonts-crosextra-carlito'

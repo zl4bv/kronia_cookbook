@@ -20,7 +20,7 @@
 include_recipe 'kronia::home'
 user_home = node['kronia']['user_home']
 
-if %w{debian ubuntu}.include?(node['platform'])
+if %w(debian ubuntu).include?(node['platform'])
   package 'terminator'
 
   directory "#{user_home}/.config" do
@@ -34,7 +34,7 @@ if %w{debian ubuntu}.include?(node['platform'])
   end
 
   template "#{user_home}/.config/terminator/config" do
-    source "config/terminator/config.erb"
+    source 'config/terminator/config.erb'
     owner node['kronia']['user_name']
     group node['kronia']['group_name']
     mode '600'

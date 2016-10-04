@@ -17,6 +17,6 @@
 # limitations under the License.
 #
 
-if %w{debian ubuntu}.include?(node['platform'])
-  package 'gitg'
+package 'gitg' do
+  only_if { %w(debian ubuntu).include?(node['platform']) }
 end

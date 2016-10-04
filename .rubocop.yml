@@ -1,0 +1,12 @@
+AllCops:
+  Exclude:
+    - 'Policyfile.rb'
+Metrics/AbcSize:
+  Exclude:
+    - 'libraries/octokit.rb'
+Metrics/LineLength:
+  Exclude:
+    - 'libraries/octokit.rb'
+Metrics/MethodLength:
+  Exclude:
+    - 'libraries/octokit.rb'

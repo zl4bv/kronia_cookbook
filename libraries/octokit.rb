@@ -18,6 +18,7 @@
 #
 
 module Kronia
+  # Mixin for interacting with the GitHub API using Octokit
   module Octokit
     # @return [Octokit::Client]
     def octokit
@@ -28,9 +29,12 @@ module Kronia
     def require_octokit
       gem 'octokit', node['kronia']['octokit_version']
       require 'octokit'
-      Chef::Log.debug("Node had octokit #{node['kronia']['octokit_version']} installed. No need to install gem.")
+      Chef::Log.debug("Node had octokit #{node['kronia']['octokit_version']} " \
+                      'installed. No need to install gem.')
     rescue LoadError
-      Chef::Log.debug("Did not find octokit version #{node['kronia']['octokit_version']} installed. Installing now")
+      Chef::Log.debug('Did not find octokit version ' \
+                      "#{node['kronia']['octokit_version']} installed. " \
+                      'Installing now')
 
       chef_gem 'octokit' do
         version node['kronia']['octokit_version']

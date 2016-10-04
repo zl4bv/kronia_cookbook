@@ -2,16 +2,16 @@
 # author: Ben Vidulich
 
 %w(libnspr4
-    libnss3
-    xdg-utils
-    libnotify4
-    gvfs-bin
-    libdbus-glib-1-2
-    gconf2-common
-    libgconf-2-4
-    gconf-service
-    gconf2
-    atom).each do |pkg|
+   libnss3
+   xdg-utils
+   libnotify4
+   gvfs-bin
+   libdbus-glib-1-2
+   gconf2-common
+   libgconf-2-4
+   gconf-service
+   gconf2
+   atom).each do |pkg|
   describe package(pkg) do
     it { should be_installed }
   end

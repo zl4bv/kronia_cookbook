@@ -24,7 +24,7 @@ group node['kronia']['group_name']
 user node['kronia']['user_name'] do
   group node['kronia']['group_name']
   home user_home
-  supports({ manage_home: true })
+  supports(manage_home: true)
 end
 
 template "#{user_home}/.bashrc" do
