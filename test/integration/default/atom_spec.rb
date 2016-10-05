@@ -11,6 +11,7 @@
    libgconf-2-4
    gconf-service
    gconf2
+   libgtk2.0-0
    atom).each do |pkg|
   describe package(pkg) do
     it { should be_installed }

@@ -36,7 +36,8 @@ if %w(debian ubuntu).include?(node['platform'])
                  libgconf-2-4
                  dbus-x11
                  gconf-service
-                 gconf2)
+                 gconf2
+                 libgtk2.0-0)
 
   # Download and install Atom
   asset = atom_release(node['kronia']['atom_version']).deb_amd64_asset
