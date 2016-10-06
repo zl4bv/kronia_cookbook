@@ -1,5 +1,3 @@
-import groovy.json.JsonOutput
-
 stage "Checkout"
 
 node {
@@ -30,14 +28,21 @@ node {
     chef_exec "kitchen test"
 }
 
+if (isRelease()) {
+
+    stage "Publish"
+
+    echo "Would publish to Chef Supermarket" // TODO
+    slackSend "Published ${name()} cookbook version ${version()} to the Supermarket", color: 'good'
+
+}
+
 def chef_exec(command) {
     sh "chef exec ${command}"
 }
 
-stage "Publish"
-
-if (version() != version_in_supermarket()) {
-    echo "Would publish to Chef Supermarket"
+def isRelease() {
+    false // FIXME: Building git tags is not yet supported (JENKINS-34395)
 }
 
 def name() {
@@ -51,16 +56,5 @@ def version() {
     node {
         def matcher = readFile('metadata.rb') =~ "version +'(.+)'"
         matcher ? matcher[0][1] : null
-    }
-}
-
-def version_in_supermarket() {
-    def response = httpRequest("https://supermarket.chef.io/api/v1/cookbooks/${name()}")
-    node {
-        def jsonSlurper = new JsonSlurper()
-        def cookbook_meta = jsonSlurper.parseText(response.content)
-        def version_response = httpRequest(cookbook_metadata.latest_version)
-        def version_meta = jsonSlurper.parseText(version_response.content)
-        version_meta.version
     }
 }
