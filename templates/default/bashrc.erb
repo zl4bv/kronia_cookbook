@@ -141,7 +141,7 @@ alias ri3='rename_i3_workspace_to_dir_name'
 
 symbol_arrow1=${symbol_arrow1:-}
 symbol_arrow2=${symbol_arrow2:-}
-symbol_branch=${symbol_branch:-\ue0a0}
+symbol_branch=${symbol_branch:- }
 
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
   export TERM='gnome-256color';
@@ -258,9 +258,9 @@ vcs_fmtstr=" ${symbol_branch}%s "
 
 if [ -z "${PS1_NOFANCY}" ]; then
   PS1="\[$(tput setaf $fg1)\]\[$(tput setab $bg1)\]"
-  PS1+="${debian_chroot:+($debian_chroot)}\u@\h:\w " # user@host:path
+  PS1+="${debian_chroot:+($debian_chroot)}\w "
   PS1+="\[$(tput setaf $bg1)\]\[$(tput setab $bg2)\]${symbol_arrow1}\[$(tput setaf $fg2)\]\[$(tput setab $bg2)\]"
-  #PS1+="$(__git_ps1 "${vcs_fmtstr}" 2>/dev/null || _git_ps1 "${vcs_fmtstr}")" # Git branch
+  PS1+=" \$(__git_ps1 "${vcs_fmtstr}" 2>/dev/null || _git_ps1 "${vcs_fmtstr}")" # Git branch
   #PS1+="$(_version_ps1)" # Extract project version
   PS1+="\[$(tput sgr0)\]\[$(tput setaf $bg2)\]${symbol_arrow1}\[$(tput sgr0)\] "
 else
