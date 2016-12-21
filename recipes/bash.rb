@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: kronia
-# Recipe:: home
+# Recipe:: bash
 #
 # Copyright 2016, Ben Vidulich
 #
@@ -19,10 +19,26 @@
 
 user_home = node['kronia']['user_home']
 
-group node['kronia']['group_name']
-
-user node['kronia']['user_name'] do
+template "#{user_home}/.bashrc" do
+  source 'bashrc.erb'
+  owner node['kronia']['user_name']
   group node['kronia']['group_name']
-  home user_home
-  supports(manage_home: true)
+  mode '0600'
+  action :create
+end
+
+template "#{user_home}/.bash_profile" do
+  source 'bash_profile.erb'
+  owner node['kronia']['user_name']
+  group node['kronia']['group_name']
+  mode '0600'
+  action :create
+end
+
+template "#{user_home}/.bash_custom" do
+  source 'bash_custom.erb'
+  owner node['kronia']['user_name']
+  group node['kronia']['group_name']
+  mode '0600'
+  action :create_if_missing
 end

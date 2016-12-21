@@ -22,6 +22,7 @@ include_recipe 'golang'
 include_recipe 'nodejs'
 
 include_recipe 'kronia::home'
+include_recipe 'kronia::bash'
 include_recipe 'kronia::git'
 
 include_recipe 'kronia::ack_grep'
